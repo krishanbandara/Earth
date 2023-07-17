@@ -1,0 +1,60 @@
+<html>
+<head>
+<title>Harvest Super</title>
+
+</head>
+<body>
+
+    <h1>Employee Details Management</h1>
+    <h3>==========Form=============</h3>
+    <form>
+    <label>Name: </label><input type="text" id="textName" size="20" placeholder="Enter Name"/></br></br>
+    <label>Nic: </label><input type="text" id="textNic" size="20" placeholder="Enter NIC"/></br></br>
+    <label>Gender: </label>
+         <select id="cmdGender">
+            <option selected disabled> Select Gender</option>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+        
+    </select> </br></br>
+
+    <button id="btnDelete">Delete</button><button id="btnUpdate">Update</button>
+    <button id="btnClear">Clear</button><button id="btnAdd">Add</button>
+
+    </form>
+
+
+    <h3>==========Search=============</h3>
+   <form>
+    <input type="text" id="searchByName" size="20" placeholder="Search by Name"/>
+    
+    <select id="cmdSearchGender">
+        <option selected disabled> Search By Gender</option>
+        <option>Male</option>
+        <option>Female</option>
+        <option>Other</option>
+    
+    </select> </br></br>
+    <button id="btnSearchClear">Clear Search</button> <button id="btnSearch">Search</button>
+    
+    </form>
+
+
+    <h3>==========View=============</h3>
+
+    <table border="1">
+
+        <thead><tr><th>Name</th><th>Gender</th><th>NIC</th></tr></thead>
+        <tbody>
+           <tr><td>Nimal</td><td>Male</td><td>5627268265V</td></tr>
+           <tr><td>Sunil</td><td>Male</td><td>6727268265V</td></tr>
+           <tr><td>Mala</td><td>Female</td><td>8727268265V</td></tr>
+           <tr><td>Bimal</td><td>Male</td><td>9127268265V</td></tr>
+        </tbody>
+         
+    </table>
+
+</body>
+
+</html>

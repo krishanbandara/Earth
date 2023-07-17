@@ -1,0 +1,199 @@
+<html>
+
+<head>
+    <title>Harvest Super</title>
+
+    <script>
+
+        function Employee(name,gender,nic){ this.name=name; this.gender=gender; this.nic=nic; }
+
+        
+        window.addEventListener("load", initialize);
+
+        function initialize(){
+
+        genders = [ "Male", "Female", "Other" ];
+
+        e1 = new Employee("Sunil", "Male", "676767654V");
+        e2 = new Employee("Nimal", "Male", "687657654V");
+        e3 = new Employee("Mala", "Female", "543767654V");
+        e4 = new Employee("Bimal", "Male", "879867654V");
+
+        // employees = [ e1, e2, e3, e4 ]; literal array
+
+        employees = new Array();  // Array 
+        employees.push(e1);
+        employees.push(e2);
+        employees.push(e3);
+        employees.push(e4);
+
+        /*
+        console.log(employees.length);
+        console.log(employees);
+        console.log(JSON.stringify(employees));
+        console.log(JSON.parse(JSON.stringify(employees)));
+
+            */
+        genders.forEach( g => { 
+            
+            txt = document.createTextNode( g);
+            opt = document.createElement("option");
+
+            opt.appendChild(txt);
+
+            cmbGender.appendChild(opt);
+         } );
+
+        genders.forEach( g => { 
+            
+            txt = document.createTextNode( g);
+            opt = document.createElement("option");
+
+            opt.appendChild(txt);
+
+            cmbSearchGender.appendChild(opt);
+         } );
+
+         employees.forEach( e => { 
+            
+            txtName = document.createTextNode( e.name);
+            txtGender = document.createTextNode( e.gender);
+            txtNic = document.createTextNode( e.nic);
+
+            tdName = document.createElement("td");
+            tdGender = document.createElement("td");
+            tdNic = document.createElement("td");
+
+            tdName.appendChild(txtName);
+            tdGender.appendChild(txtGender);
+            tdNic.appendChild(txtNic);
+
+            row = document.createElement("tr");
+
+            row.appendChild(tdName);
+            row.appendChild(tdGender);
+            row.appendChild(tdNic);
+
+            tblEmployee.children[1].appendChild(row);
+
+         } );
+
+        }
+
+        function search(){
+
+            //console.log(txtSearchName.value);
+
+            name = txtSearchName.value;
+            //selectedemployees = new Array();
+
+            selectedemployees = employees.filter( (e) => e.name == name );
+
+            console.log(employees.length);
+            console.log(selectedemployees.length);
+
+            tblEmployee.children[1].innerHTML="";
+            
+            selectedemployees.forEach( e => { 
+            
+            txtName = document.createTextNode( e.name);
+            txtGender = document.createTextNode( e.gender);
+            txtNic = document.createTextNode( e.nic);
+
+            tdName = document.createElement("td");
+            tdGender = document.createElement("td");
+            tdNic = document.createElement("td");
+
+            tdName.appendChild(txtName);
+            tdGender.appendChild(txtGender);
+            tdNic.appendChild(txtNic);
+
+            row = document.createElement("tr");
+
+            row.appendChild(tdName);
+            row.appendChild(tdGender);
+            row.appendChild(tdNic);
+
+            tblEmployee.children[1].appendChild(row);
+
+         } );
+            
+
+        }
+
+        function searchclear(){
+            //console.log("clear search");
+
+            tblEmployee.children[1].innerHTML="";
+
+            employees.forEach( e => { 
+            
+            txtName = document.createTextNode( e.name);
+            txtGender = document.createTextNode( e.gender);
+            txtNic = document.createTextNode( e.nic);
+
+            tdName = document.createElement("td");
+            tdGender = document.createElement("td");
+            tdNic = document.createElement("td");
+
+            tdName.appendChild(txtName);
+            tdGender.appendChild(txtGender);
+            tdNic.appendChild(txtNic);
+
+            row = document.createElement("tr");
+
+            row.appendChild(tdName);
+            row.appendChild(tdGender);
+            row.appendChild(tdNic);
+
+            tblEmployee.children[1].appendChild(row);
+
+         } );
+            txtSearchName.value="";
+        }
+
+    </script>
+</head>
+
+<body >
+    <h1>Employee Details Management</Details></h1>
+    <h3>=============== Form ===============</h3>
+        <form>
+            <label>Name     :</label> <input type="text" id="txtName" size="20" placeholder="Enter Name" /><br/><br/>
+            <label>NIC      :</label> <input type="text" id="txtNic" size="20" placeholder="Enter NIC" /><br/><br/>
+            <label>Gender :</label>
+                <select id="cmbGender">
+                    <option selected disabled>Select Gender</option>
+                    
+                </select> <br/><br/>
+
+            <button id="btnDelete">Delete</button> <button id="btnUpdate">Update</button>
+            <button id="btnClear">Clear</button> <button id="btnAdd">Add</button>
+
+        </form>
+
+    <h3>=============== Search ==============</h3>
+
+    <form onsubmit="return false">
+        
+    <input type="text" id="txtSearchName" size="20" placeholder="Search By Name" />
+    <select id="cmbSearchGender">
+        <option selected disabled>Search By Gender</option>
+        
+    </select>  <br/><br/>
+
+    <button id="btnSearchClear" onclick="searchclear()">Clear Search</button> <button id="btnSearch" onclick="search()">Search</button>
+    </form>
+
+    <h3>=============== View ===============</h3>
+
+    <table border="1" id="tblEmployee">
+        <thead><tr><th>Name</th><th>Gender</th><th>NIC</th></tr></thead>
+        <tbody>
+        </tbody>
+    </table>
+
+
+</body>
+
+</html>

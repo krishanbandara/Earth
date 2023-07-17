@@ -1,0 +1,147 @@
+<html>
+<head>
+<title>Harvest Super</title>
+
+<script>
+
+   function Employee(name,gender,nic){this.name=name;this.gender=gender;this.nic=nic;}
+   
+   window.addEventListener("load",initialize);
+   function initialize(){
+
+    genders = ["Male","Female","Other"];
+   
+    e1=new Employee("Sunil","Male","87292789V");
+    e2=new Employee("Nimal","Male","65292789V");
+    e3=new Employee("Mala","Female","45292789V");
+    e4=new Employee("Bimal","Male","54292789V");
+ 
+    employees=new Array();
+    employees.push(e1);
+    employees.push(e2);
+    employees.push(e3);
+    employees.push(e4);
+
+   console.log(employees.length);
+   console.log(employees);
+   console.log(JSON.stringify(employees));
+   console.log(JSON.parse(JSON.stringify(employees)));
+
+    genders.forEach(g => {  
+     
+          txt=document.createTextNode(g);
+          opt=document.createElement("option");
+ 
+          opt.appendChild(txt);
+          cmbGender.appendChild(opt);
+         
+ });
+
+genders.forEach(g => {  
+     
+     txt=document.createTextNode(g);
+     opt=document.createElement("option");
+
+     opt.appendChild(txt);
+     cmbSearchGender.appendChild(opt);
+    
+});
+
+employees.forEach(e => {  
+     
+     txtName=document.createTextNode(e.name);
+     txtGender=document.createTextNode(e.gender);
+     txtNic=document.createTextNode(e.nic);
+     
+     tdName=document.createElement("td");
+     tdGender=document.createElement("td");
+     tdNic=document.createElement("td");
+
+     row=document.createElement("tr");
+     
+     tdName.appendChild(txtName);
+     tdGender.appendChild(txtGender);
+     tdNic.appendChild(txtNic);
+   
+     row.appendChild(tdName);
+     row.appendChild(tdGender);
+     row.appendChild(tdNic);
+     
+     tblEmployee.children[1].appendChild(row);
+    
+});
+
+}
+
+
+function search(){
+//console.log(txtSearchName.value);
+
+name=txtSearchName.value;
+rows=tblEmployee.children[1].children;
+
+for(r of rows)
+   //console.log(r.children[0].innerHTML);
+  
+   if(r.children[0].innerHTML !=name)
+      r.style.display="none";
+
+   else 
+      r.style.display="";
+
+
+}
+
+
+function searchclear(){
+  console.log("test");
+
+
+}
+
+</script>
+</head>
+
+<body>
+ 
+    <h1>Employee Details Management</h1>
+    
+    <h3>==========Form=============</h3>
+    
+    <form>
+    <label>Name: </label><input type="text" id="textName" size="20" placeholder="Enter Name"/></br></br>
+    <label>Nic: </label><input type="text" id="textNic" size="20" placeholder="Enter NIC"/></br></br>
+    <label>Gender: </label>
+         <select id="cmbGender">
+            <option selected disabled> Select Gender</option>
+        </select> </br></br>
+
+    <button id="btnDelete">Delete</button><button id="btnUpdate">Update</button>
+    <button id="btnClear">Clear</button><button id="btnAdd">Add</button>
+    </form>
+
+
+    <h3>==========Search=============</h3>
+    
+    <form onsubmit="return false">
+    <input type="text" id="txtSearchName" size="20" placeholder="Search by Name"/>
+    
+    <select id="cmbSearchGender">
+        <option selected disabled> Search By Gender</option>
+    </select> </br></br>
+    <button id="btnSearchClear" onclick="searchclear()">Clear Search</button> <button id="btnSearch" onclick="search()">Search</button>
+    </form>
+
+
+    <h3>==========View=============</h3>
+
+    <table border="1" id="tblEmployee">
+
+        <thead><tr><th>Name</th><th>Gender</th><th>NIC</th></tr></thead>
+        <tbody>
+        </tbody>
+    </table>
+
+   </body>
+
+</html>
