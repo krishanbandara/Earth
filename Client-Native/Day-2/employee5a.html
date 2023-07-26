@@ -1,0 +1,170 @@
+<html>
+<head>
+<title>Harvest Super</title>
+
+<script>
+
+   function Employee(name,gender,nic){this.name=name;this.gender=gender;this.nic=nic;}
+   
+   window.addEventListener("load",initialize);
+ 
+   // <-- Controller and service -->
+  // (1) -- Initializing Functions
+
+
+   function initialize(){
+
+    genders = ["Male","Female","Other"];
+   
+    e1=new Employee("Sunil","Male","87292789V");
+    e2=new Employee("Nimal","Male","65292789V");
+    e3=new Employee("Mala","Female","45292789V");
+    e4=new Employee("Nimal","Female","54292789V");
+ 
+    employees=new Array();
+    employees.push(e1);
+    employees.push(e2);
+    employees.push(e3);
+    employees.push(e4);
+
+   
+    filCombo(cmbGender,genders);
+    filCombo(cmbSearchGender,genders);
+    
+     employees.forEach(e => {  
+     txtName=document.createTextNode(e.name);
+     txtGender=document.createTextNode(e.gender);
+     txtNic=document.createTextNode(e.nic);
+     
+     tdName=document.createElement("td");
+     tdGender=document.createElement("td");
+     tdNic=document.createElement("td");
+
+     row=document.createElement("tr");
+     
+     tdName.appendChild(txtName);
+     tdGender.appendChild(txtGender);
+     tdNic.appendChild(txtNic);
+   
+     row.appendChild(tdName);
+     row.appendChild(tdGender);
+     row.appendChild(tdNic);
+     
+     tblEmployee.children[1].appendChild(row);
+    
+});
+
+}
+
+// (2) -- Interactive function --
+
+function search(){
+ name=txtSearchName.value;
+ gender=cmbSearchGender.value;
+ rows=tblEmployee.children[1].children;
+  
+
+// Test 1 - Name not mentioned and Gender not selected for search
+  
+if(name=="" && gender=="unselected"){window.alert("Nothing to be searched");}
+
+  else {
+
+// Test 2 - Name mentioned but Gender not selected for search
+
+if(name!=""&& gender=="unselected"){
+  for(r of rows)
+  if(r.children[0].innerHTML !=name)
+      r.style.display="none";
+  else 
+      r.style.display="";
+}
+
+// Test 3 - Name not mentioned but Gender selected 
+
+if(name =="" && gender!=""){
+ for(r of rows)
+ if(r.children[1].innerHTML != gender)
+    r.style.display="none";
+ else 
+   r.style.display="";
+
+}
+
+//Test 4 - Name mentioned and Gender selected  
+
+if(name!="" && gender!="unselected"){
+for(r of rows)
+ if(r.children[0].innerHTML ==name && r.children[1].innerHTML==gender)
+    r.style.display="";
+ else 
+   r.style.display="none";
+   }
+  }
+}
+
+function searchclear(){
+for(r of rows)
+  r.style.display="";
+  txtSearchName.value="";
+  cmbSearchGender.value="unselected";
+}
+
+// (3) Framework function
+function filCombo(combo,data){
+  data.forEach(d => {  
+     txt=document.createTextNode(d);
+     opt=document.createElement("option");
+     opt.appendChild(txt);
+     combo.appendChild(opt);
+    
+   });
+
+}
+
+</script>
+</head>
+
+<body>
+ 
+    <h1>Employee Details Management</h1>
+    
+    <h3>==========Form=============</h3>
+    
+    <form>
+    <label>Name: </label><input type="text" id="textName" size="20" placeholder="Enter Name"/></br></br>
+    <label>Nic: </label><input type="text" id="textNic" size="20" placeholder="Enter NIC"/></br></br>
+    <label>Gender: </label>
+         <select id="cmbGender">
+            <option selected disabled> Select Gender</option>
+        </select> </br></br>
+
+    <button id="btnDelete">Delete</button><button id="btnUpdate">Update</button>
+    <button id="btnClear">Clear</button><button id="btnAdd">Add</button>
+    </form>
+
+
+    <h3>==========Search=============</h3>
+    
+    <form onsubmit="return false">
+    <input type="text" id="txtSearchName" size="20" placeholder="Search by Name"/>
+    
+    <select id="cmbSearchGender">
+        <option selected disabled value="unselected"> Search By Gender</option>
+    </select> </br></br>
+    <button id="btnSearchClear" onclick="searchclear()">Clear Search</button> <button id="btnSearch" onclick="search()">Search</button>
+    </form>
+
+
+    <h3>==========View=============</h3>
+
+    <table border="1" id="tblEmployee">
+
+        <thead><tr><th>Name</th><th>Gender</th><th>NIC</th></tr></thead>
+        <tbody>
+        </tbody>
+    </table>
+
+   </body>
+
+</html>
