@@ -1,0 +1,211 @@
+<html>
+<head>
+<title>Harvest Super</title>
+
+<script>
+
+   function Employee(name,gender,nic,city){this.name=name;this.gender=gender;this.nic=nic;this.city=city;}
+   
+   window.addEventListener("load",initialize);
+ // <-- Controller and service -->
+ // (1) -- Initializing Functions
+
+
+   function initialize(){
+
+    genders = ["Male","Female","Other"];
+   
+    e1=new Employee("Sunil","Male","87292789V","Panadura");
+    e2=new Employee("Nimal","Male","65292789V","Moratuwa");
+    e3=new Employee("Mala","Female","45292789V","Colombo");
+    e4=new Employee("Nimal","Female","54292789V","Galle");
+ 
+    employees=new Array();
+    employees.push(e1);
+    employees.push(e2);
+    employees.push(e3);
+    employees.push(e4);
+
+   console.log(employees.length);
+   console.log(employees);
+   console.log(JSON.stringify(employees));
+   console.log(JSON.parse(JSON.stringify(employees)));
+
+    fillCombo(cmbGender,genders);
+    fillCombo(cmbSearchGender,genders);
+
+    binders = ["name","gender","nic","city"];
+    headers=["Name","Gender","NIC","CITY"];
+    fillTable(tblEmployee,employees,binders,headers);
+
+}
+
+// (2) -- Interactive function --
+
+function search(){
+//console.log(txtSearchName.value);
+
+name=txtSearchName.value;
+gender=cmbSearchGender.value;
+rows=tblEmployee.children[1].children;
+
+
+
+// Test 1   
+if(name=="" && gender=="unselected"){window.alert("Nothing to be searched");} // Test 2
+
+// Test 2 
+
+if(name!=""&& gender=="unselected"){
+
+   for(r of rows)
+   if(r.children[0].innerHTML !=name)
+      r.style.display="none";
+
+   else 
+      r.style.display="";
+}
+
+// Test 3
+
+if(name =="" && gender!=""){
+
+for(r of rows)
+if(r.children[1].innerHTML != gender)
+   r.style.display="none";
+
+else 
+   r.style.display="";
+
+}
+
+
+
+
+//Test 4 
+
+if(name!="" && gender!="unselected"){
+
+for(r of rows)
+if(r.children[0].innerHTML ==name && r.children[1].innerHTML==gender)
+   r.style.display="";
+
+else 
+   r.style.display="none";
+
+
+}
+}
+
+
+function searchclear(){
+    
+ // console.log("clear search");
+  for(r of rows)
+  r.style.display="";
+  txtSearchName.value="";
+  cmbSearchGender.value="unselected";
+
+}
+
+// (3) Framework function
+function fillCombo(combo,data){
+
+     data.forEach(d => {  
+     
+     txt=document.createTextNode(d);
+     opt=document.createElement("option");
+
+     opt.appendChild(txt);
+     combo.appendChild(opt);
+    
+});
+
+}
+
+// Table headers are passed thorough Filltable function 
+
+function fillTable(table,data,binders,headers){
+
+
+    row=document.createElement("tr");
+    headers.forEach(h=>{
+        
+       txtBinder=document.createTextNode(h);
+       thBinder=document.createElement("th");
+       thBinder.appendChild(txtBinder);
+       row.appendChild(thBinder);
+         
+          });
+
+     table.children[0].appendChild(row);
+
+
+       data.forEach(e => {  
+        
+        row=document.createElement("tr");
+        
+        for(i in binders){
+       txtBinder=document.createTextNode(e[binders[i]]);
+       tdBinder=document.createElement("td");
+       tdBinder.appendChild(txtBinder);
+       row.appendChild(tdBinder);
+
+        }
+
+     
+     table.children[1].appendChild(row);
+    
+});
+
+}
+
+
+</script>
+
+
+</head>
+
+<body>
+ 
+    <h1>Employee Details Management</h1>
+    
+    <h3>==========Form=============</h3>
+    
+    <form>
+    <label>Name: </label><input type="text" id="textName" size="20" placeholder="Enter Name"/></br></br>
+    <label>Nic: </label><input type="text" id="textNic" size="20" placeholder="Enter NIC"/></br></br>
+    <label>Gender: </label>
+         <select id="cmbGender">
+            <option selected disabled> Select Gender</option>
+        </select> </br></br>
+
+    <button id="btnDelete">Delete</button><button id="btnUpdate">Update</button>
+    <button id="btnClear">Clear</button><button id="btnAdd">Add</button>
+    </form>
+
+
+    <h3>==========Search=============</h3>
+    
+    <form onsubmit="return false">
+    <input type="text" id="txtSearchName" size="20" placeholder="Search by Name"/>
+    
+    <select id="cmbSearchGender">
+        <option selected disabled value="unselected"> Search By Gender</option>
+    </select> </br></br>
+    <button id="btnSearchClear" onclick="searchclear()">Clear Search</button> <button id="btnSearch" onclick="search()">Search</button>
+    </form>
+
+
+    <h3>==========View=============</h3>
+
+    <table border="1" id="tblEmployee">
+
+        <thead></thead>
+        <tbody>
+        </tbody>
+    </table>
+
+   </body>
+
+</html>
