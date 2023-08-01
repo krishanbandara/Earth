@@ -1,8 +1,8 @@
 <html>
 <head>
 <title>Harvest Super</title>
-
-<!-- --Changements Done in this file--
+<!-- 
+--Changements Done in this file--
 
 line 181 - validations applied - > if(nic=="" || nic.length!=10 || window.isNaN(nic.substring(0,9)) || nic.charAt(9)!="V")
            String functions are used ex:nic.substring , nic.charAt
@@ -10,7 +10,8 @@ line 181 - validations applied - > if(nic=="" || nic.length!=10 || window.isNaN(
            2) if the NIC length is not equal to 10 ( less than 10 or greater than 10)
            3) if the NIC first 9 digits are not numbers ( window.isNaN) 
            4) if the NIC 9th index (10th charactor) is not "V"
-           NIC is invalid  -->
+           NIC is invalid 
+           onsubmit validation -->
          
 <script>
    function Employee(name,gender,nic,city){this.name=name;this.gender=gender;this.nic=nic;this.city=city;}
