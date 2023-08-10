@@ -1,0 +1,485 @@
+<html>
+<head>
+<title>Harvest Super</title>
+
+
+<style type ="text/css">
+
+    .valid{background-color:lightgreen;}
+    .invalid{background-color:pink;}
+    .updated{background-color:khaki;}
+    .selected{background-color: skyblue;}
+   
+   </style>
+
+<script>
+
+   function Employee(id,name,gender,nic,city){this.id=id;this.name=name;this.gender=gender;this.nic=nic;this.city=city;}
+   
+   window.addEventListener("load",initialize);
+
+   // Changements //
+   // Selected row with css 
+ 
+   // <-- Controller and service -->
+ // (1) -- Initializing Functions
+
+
+   // ---  chanagements --- 
+   // update method initially  added with console logs 
+   // css class added in line 9 for updated 
+   // fillForm added oldemployee and employee
+
+   function initialize(){
+
+    employee=new Employee(null,null,null,null,null);
+    oldemployee=null;
+
+    genders = ["Male","Female","Other"];
+   
+    e1=new Employee("1","Sunil","Male","123456789V","Panadura");
+    e2=new Employee("2","Nimal","Male","987654321V","Moratuwa");
+    e3=new Employee("3","Mala","Female","142534254V","Colombo");
+    e4=new Employee("4","Nimal","Female","983564526V","Galle");
+ 
+    employees=new Array();
+    employees.push(e1);
+    employees.push(e2);
+    employees.push(e3);
+    employees.push(e4);
+
+   console.log(employees.length);
+   console.log(employees);
+   console.log(JSON.stringify(employees));
+   console.log(JSON.parse(JSON.stringify(employees)));
+
+    fillCombo(cmbGender,genders);
+    fillCombo(cmbSearchGender,genders);
+
+    binders = ["id","name","gender","nic","city"];
+    headers=["ID","Name","Gender","NIC","CITY"];
+    fillTable(tblEmployee,employees,binders,headers);
+    regexes={nic:"^[0-9]{9}V$",name:"^[A-Z][a-z]+$"};
+
+ }
+
+
+// (2) -- Interactive function --
+
+function search(){
+
+name=txtSearchName.value;
+gender=cmbSearchGender.value;
+rows=tblEmployee.children[1].children;
+
+// Test 1 
+if(name=="" && gender=="unselected"){window.alert("Nothing to be searched");}
+
+// Test 2 
+else{
+if(name!=""&& gender=="unselected"){
+  for(r of rows)
+   if(r.children[0].innerHTML !=name)
+      r.style.display="none";
+   else 
+      r.style.display="";
+}
+
+// Test 3
+if(name =="" && gender!=""){
+for(r of rows)
+if(r.children[1].innerHTML != gender)
+   r.style.display="none";
+
+else 
+   r.style.display="";
+}
+
+//Test 4
+
+if(name!="" && gender!="unselected"){
+for(r of rows)
+if(r.children[0].innerHTML ==name && r.children[1].innerHTML==gender)
+   r.style.display="";
+
+else 
+   r.style.display="none";
+ }
+
+ }
+
+}
+
+function searchclear(){
+    
+ // console.log("clear search");
+  for(r of rows)
+  r.style.display="";
+  txtSearchName.value="";
+  cmbSearchGender.value="unselected";
+
+}
+
+
+// (3) Framework function
+function fillCombo(combo,data){
+
+     data.forEach(d => {  
+     
+     txt=document.createTextNode(d);
+     opt=document.createElement("option");
+
+     opt.appendChild(txt);
+     combo.appendChild(opt);
+    
+});
+
+}
+
+function fillTable(table,data,binders,headers){
+       tblEmployee.children[0].innerHTML="";
+       tblEmployee.children[1].innerHTML="";
+
+    row=document.createElement("tr");
+    headers.forEach(h=>{
+        
+       txtBinder=document.createTextNode(h);
+       thBinder=document.createElement("th");
+       thBinder.appendChild(txtBinder);
+       row.appendChild(thBinder);
+         
+          });
+
+     table.children[0].appendChild(row);
+
+   
+        data.forEach(e => {  
+         row=document.createElement("tr");
+         row.setAttribute("obj",JSON.stringify(e));
+        
+
+        
+        
+        for(i in binders){
+       txtBinder=document.createTextNode(e[binders[i]]);
+       tdBinder=document.createElement("td");
+       tdBinder.appendChild(txtBinder);
+       row.appendChild(tdBinder);
+
+        }
+        row.addEventListener("click",function(){fillForm(this)});
+     -  table.children[1].appendChild(row);
+    
+}
+);
+
+
+
+
+}
+
+////////////////// Add Function //////////////
+
+
+//  (2) Interactive functions 
+// (2) (a) Binding Functions for realtime Binding ( Collect/validate/Bind)
+
+function add(){
+
+validity=true;
+
+
+errors="";
+
+if(employee.name==null){validity=false; errors=errors+"\nName is Invalid";}
+if(employee.gender==null){validity=false; errors=errors+"\nGender is not selected";}
+if(employee.nic==null){validity=false; errors=errors+"\nNIC is invalid";}
+if(employee.city==null){validity=false; errors=errors+"\nCITY is Empty";}
+
+if(!validity){
+window.alert("You have following errors,\n"+errors);
+}
+
+else{
+  confirm=window.confirm("Are you sure you want to add this employee\n"+name);
+    if(confirm){
+    employee.id=employee.length+1;
+    employees.push(employee);
+
+    tblEmployee.children[1].innerHTML="";
+    tblEmployee.children[0].innerHTML="";
+
+
+    fillTable(tblEmployee,employees,binders,headers);
+
+     textCity.value="";
+     textName.value="";
+     textNic.value="";
+     cmbGender.value="unselected";
+
+     textCity.classList.remove("valid");
+     textName.classList.remove("valid");
+     textNic.classList.remove("valid");
+     cmbGender.classList.remove("valid");
+    
+    }
+}
+}
+
+
+function fillForm(row){
+
+    //console.log(row.getAttribute("obj"));
+   
+   rows=row.parentNode.childNodes;
+   rows.forEach(r=>{r.classList.remove("selected");});
+   
+   
+    row. classList.add("selected");
+    x=row.getAttribute("obj");
+    
+    employee=JSON.parse(x);
+    oldemployee=JSON.parse(x);
+    
+    textName.value=employee.name;
+    cmbGender.value=employee.gender;
+    textNic.value=employee.nic;
+    textCity.value=employee.city;
+
+   textName.classList.add("valid");
+   textNic.classList.add("valid");
+   textCity.classList.add("valid");
+   cmbGender.classList.add("valid");
+
+}
+
+function update(){
+   
+update="";
+
+if(oldemployee!=null ){
+
+
+if( oldemployee.name!=employee.name) update=update+"Name Updated\n";
+if(oldemployee.nic!=employee.nic) update=update+"Nic Updated\n";
+if(oldemployee.gender!=employee.gender) update=update+"Gender Updated\n";
+if(oldemployee.city!=employee.city) update=update+"City Updated\n";
+
+if(update=="")window.alert("Nothing to update");
+else{
+  var confirm=window.confirm("Are you sure to save following\n\n"+update);
+  
+   if(confirm){
+
+    var i = employees.findIndex(e=>e.id==employee.id);
+      employees[i]=employee;
+      fillTable(tblEmployee,employees,binders,headers);
+      window.alert("Succesfully Updated");
+      
+
+
+    textName.value="";
+    cmbGender.value="unselected";
+    textNic.value="";
+    textCity.value="";
+
+     textCity.classList.remove("valid");
+     textName.classList.remove("valid");
+     textNic.classList.remove("valid");
+     cmbGender.classList.remove("valid");
+     
+     textCity.classList.remove("updated");
+     textName.classList.remove("updated");
+     textNic.classList.remove("updated");
+     cmbGender.classList.remove("updated");
+
+
+   rows=tblEmployee.children[1].childNodes;
+   rows.forEach(r=>{
+
+    if(JSON.parse(r.getAttribute("obj")).id==employee.id)
+    r.classList.add("selected");
+
+   });
+
+
+
+   }
+   
+
+}
+}
+
+}
+
+function bindNic(){
+
+//console.log(textNic.value);
+textNic.classList.remove("valid");  
+textNic.classList.remove("updated");
+textNic.classList.remove("invalid");
+
+nic=textNic.value;
+  
+   
+if(nic.match(regexes.nic)){
+    employee.nic=nic;
+     
+   
+
+    if(oldemployee!=null && oldemployee.nic!=employee.nic)
+    textNic.classList.add("updated");
+       else
+       textNic.classList.add("valid");
+   
+   }
+     else{ 
+        textNic.classList.add("invalid");
+        employee.nic=null;
+   }
+
+}
+function bindGender(){
+
+//////// Gender validation //////////////
+
+cmbGender.classList.remove("valid");  
+cmbGender.classList.remove("updated");
+cmbGender.classList.remove("invalid");
+
+gender=cmbGender.value;
+
+
+   if(gender!="unselected"){
+
+      employee.gender=gender;
+
+      if(oldemployee!=null && oldemployee.gender!=employee.gender)
+         cmbGender.classList.add("updated");
+          else
+         cmbGender.classList.add("valid");
+      }
+
+     else{ 
+      cmbGender.classList.add("invalid");
+       employee.gender=null;
+   }
+
+}
+
+
+
+
+
+
+function bindName(){
+
+//////// Name validation //////////////
+textName.classList.remove("valid");  
+textName.classList.remove("updated");
+textName.classList.remove("invalid");
+
+name=textName.value;
+
+ if(name.match(regexes.name)){
+    employee.name=name;
+
+    if(oldemployee!=null && oldemployee.name!=employee.name)
+       textName.classList.add("updated");
+       else
+       textName.classList.add("valid");
+}
+
+
+      
+     else{ 
+        textName.classList.add("invalid");
+        employee.name=null;
+   }
+   
+
+
+}
+
+
+
+function bindCity(){
+
+//////// City validation //////////////
+textCity.classList.remove("valid");  
+textCity.classList.remove("updated");
+textCity.classList.remove("invalid");
+
+city=textCity.value;
+
+ if(city.match(regexes.city)){
+    employee.city=city;
+
+    if(oldemployee!=null && oldemployee.city!=employee.city)
+       textCity.classList.add("updated");
+       else
+       textCity.classList.add("valid");
+}
+
+
+      
+     else{ 
+        textCity.classList.add("invalid");
+        employee.city=null;
+   }
+
+
+}
+
+
+</script>
+
+
+</head>
+
+<body>
+ 
+    <h1>Employee Details Management</h1>
+    
+    <h3>==========Form=============</h3>
+    
+    <form onsubmit="return false">
+
+    <label>Name: </label><input type="text" id="textName" size="20" placeholder="Enter Name" onkeyup="bindName()"/></br></br>
+    <label>Nic: </label><input type="text" id="textNic" size="20" placeholder="Enter NIC" onkeyup="bindNic()"/></br></br>
+    <label>City: </label><input type="text" id="textCity" size="20" placeholder="Enter City" onkeyup="bindCity()"/></br></br>
+    <label>Gender: </label>
+         <select id="cmbGender" onchange="bindGender()">
+            <option selected disabled value="unselected"> Select Gender</option>
+        </select> </br></br>
+
+    <button id="btnDelete">Delete</button><button id="btnUpdate" onclick="update()">Update</button>
+    <button id="btnClear">Clear</button> <button id="btnAdd" onclick="add()">Add</button>
+    
+</form>
+
+
+    <h3>==========Search=============</h3>
+    
+    <form onsubmit="return false">
+    <input type="text" id="txtSearchName" size="20" placeholder="Search by Name"/>
+    
+    <select id="cmbSearchGender">
+        <option selected disabled value=""> Search By Gender</option>
+    </select> </br></br>
+    <button id="btnSearchClear" onclick="searchclear()">Clear Search</button> <button id="btnSearch" onclick="search()">Search</button>
+    </form>
+
+
+    <h3>==========View=============</h3>
+
+    <table border="1" id="tblEmployee">
+
+        <thead></thead>
+        <tbody>
+        </tbody>
+    </table>
+
+   </body>
+
+</html>
