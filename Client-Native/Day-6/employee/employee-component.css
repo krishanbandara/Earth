@@ -1,0 +1,14 @@
+
+
+
+        .valid{ background-color: lightgreen; }
+
+        .invalid{ background-color: pink; }
+
+        .updated{ background-color: khaki; }
+
+        .initial{ background-color: lightgray; }
+
+        .selected{ background-color: skyblue; }
+
+

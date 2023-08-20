@@ -1,0 +1,56 @@
+<html>
+
+<head>
+    <title>Harvest Super</title>
+    <link type="text/css" rel="stylesheet" href="employee-component.css"/>
+    <script type="text/javascript" src="gender.js"></script>
+    <script type="text/javascript" src="employee.js"></script>
+    <script type="text/javascript" src="gender-services.js"></script>
+    <script type="text/javascript" src="employee-services.js"></script>
+    <script type="text/javascript" src="regexes-services.js"></script>
+    <script type="text/javascript" src="angular-prototype.js"></script>
+    <script type="text/javascript" src="employee-component.js"></script>
+
+</head>
+<body>
+
+    <h1>Employee Details Managemnet</h1>
+
+    <h3>=============== Form ==================</h3>
+    <form onsubmit="return false">
+        <label>Name : </label> <input type="text" id="txtName" size="20" placeholder="Enter Name" onkeyup="bindName()" /><br/><br/> 
+        <label>NIC : </label> <input type="text" id="txtNic" size="20" placeholder="Enter NIC" onkeyup="bindNic()" /><br/><br/> 
+        <label>Gender : </label>
+            <select id="cmbGender" onchange="bindGender()" >
+                    <option selected value="">Select Gender</option>
+            </select> <br/><br/>
+        
+        <button id="btnDelete" onclick="deletex()">Delete</button> <button id="btnUpdate" onclick="update()">Update</button>
+        <button id="btnClear" onclick="clearx()">Clear</button> <button id="btnAdd" onclick="add()">Add</button>
+        
+
+    </form>
+
+    <h3>=============== Search ================</h3>
+
+    <form onsubmit="return false"> 
+    
+    <input type="text" id="txtSearchName" size="20" placeholder="Search By Name" />
+    <select id="cmbSearchGender">
+        <option selected disabled value="">Search By Gender</option>
+    </select> <br/><br/>
+
+    <button id="btnSearchClear" onclick="searchclear()">Clear Search</button> 
+    <button id="btnSearch" onclick="search()">Search</button>
+   </form> 
+
+    <h3>=============== View ==================</h3>
+    
+    <table border="1" id="tblEmployee">
+        <thead></thead>
+        <tbody></tbody>
+    </table>
+
+</body>
+
+</html>
